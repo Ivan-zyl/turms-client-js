@@ -37,7 +37,9 @@ module.exports = (env, argv) => {
         },
         output: {
             path: path.resolve(__dirname, 'dist'),
-            filename: "[name].js"
+            filename: "[name].js",
+            library: "TurmsClient",
+            libraryTarget: "umd" // exposes and know when to use module.exports or exports.
         }
     };
     config.plugins = [];
