@@ -1,0 +1,45 @@
+import TurmsClient from "../turms-client";
+import { im } from "../model/proto-bundle";
+import { ParsedModel } from "../model/parsed-model";
+import GroupMemberRole = im.turms.proto.GroupMemberRole;
+import GroupJoinQuestionsAnswerResult = im.turms.proto.GroupJoinQuestionsAnswerResult;
+export default class GroupService {
+    private _turmsClient;
+    constructor(turmsClient: TurmsClient);
+    createGroup(name: string, intro?: string, announcement?: string, minimumScore?: number, muteEndDate?: Date, groupTypeId?: string): Promise<string>;
+    deleteGroup(groupId: string): Promise<void>;
+    updateGroup(groupId: string, groupName?: string, intro?: string, announcement?: string, minimumScore?: number, groupTypeId?: string, muteEndDate?: Date, successorId?: string, quitAfterTransfer?: boolean): Promise<void>;
+    transferOwnership(groupId: string, successorId: string, quitAfterTransfer?: boolean): Promise<void>;
+    muteGroup(groupId: string, muteEndDate: Date): Promise<void>;
+    unmuteGroup(groupId: string): Promise<void>;
+    queryGroup(groupId: string, lastUpdatedDate?: Date): Promise<ParsedModel.GroupWithVersion | undefined>;
+    queryJoinedGroupIds(lastUpdatedDate?: Date): Promise<ParsedModel.IdsWithVersion | undefined>;
+    queryJoinedGroupInfos(lastUpdatedDate?: Date): Promise<ParsedModel.GroupsWithVersion | undefined>;
+    addGroupJoinQuestion(groupId: string, question: string, answers: string[], score: number): Promise<string>;
+    deleteGroupJoinQuestion(questionId: string): Promise<void>;
+    updateGroupJoinQuestion(questionId: string, question?: string, answers?: string[], score?: number): Promise<void>;
+    blacklistUser(groupId: string, userId: string): Promise<void>;
+    unblacklistUser(groupId: string, userId: string): Promise<void>;
+    queryBlacklistedUserIds(groupId: string, lastUpdatedDate?: Date): Promise<ParsedModel.IdsWithVersion | undefined>;
+    queryBlacklistedUserInfos(groupId: string, lastUpdatedDate?: Date): Promise<ParsedModel.UsersInfosWithVersion | undefined>;
+    createInvitation(groupId: string, inviteeId: string, content: string): Promise<string>;
+    deleteInvitation(invitationId: string): Promise<void>;
+    queryInvitationsByGroupId(groupId: string, lastUpdatedDate?: Date): Promise<ParsedModel.GroupInvitationsWithVersion | undefined>;
+    queryInvitations(areSentByMe: boolean, lastUpdatedDate?: Date): Promise<ParsedModel.GroupInvitationsWithVersion | undefined>;
+    createJoinRequest(groupId: string, content: string): Promise<string>;
+    deleteJoinRequest(requestId: string): Promise<void>;
+    queryJoinRequests(groupId: string, lastUpdatedDate?: Date): Promise<ParsedModel.GroupJoinRequestsWithVersion | undefined>;
+    querySentJoinRequests(lastUpdatedDate?: Date): Promise<ParsedModel.GroupJoinRequestsWithVersion | undefined>;
+    queryGroupJoinQuestionsRequest(groupId: string, withAnswers?: boolean, lastUpdatedDate?: Date): Promise<ParsedModel.GroupJoinQuestionsWithVersion | undefined>;
+    answerGroupQuestions(questionIdsAndAnswers: {
+        [k: string]: string;
+    }): Promise<GroupJoinQuestionsAnswerResult | undefined>;
+    addGroupMember(groupId: string, userId: string, name?: string, role?: string | GroupMemberRole, muteEndDate?: Date): Promise<void>;
+    quitGroup(groupId: string, successorId?: string, quitAfterTransfer?: boolean): Promise<void>;
+    removeGroupMember(groupId: string, memberId: string): Promise<void>;
+    updateGroupMemberInfo(groupId: string, memberId: string, name?: string, role?: string | GroupMemberRole, muteEndDate?: Date): Promise<void>;
+    muteGroupMember(groupId: string, memberId: string, muteEndDate: Date): Promise<void>;
+    unmuteGroupMember(groupId: string, memberId: string): Promise<void>;
+    queryGroupMembers(groupId: string, withStatus?: boolean, lastUpdatedDate?: Date): Promise<ParsedModel.GroupMembersWithVersion | undefined>;
+    queryGroupMembersByMemberIds(groupId: string, memberIds: string[], withStatus?: boolean): Promise<ParsedModel.GroupMembersWithVersion | undefined>;
+}

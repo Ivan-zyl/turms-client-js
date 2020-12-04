@@ -1,0 +1,63 @@
+{
+  "name": "turms-client-js",
+  "version": "0.10.0-SNAPSHOT",
+  "description": "turms-client-js is a library to communicate with turms servers.",
+  "main": "dist/turms-client.min.js",
+  "types": "types/turms-client.d.ts",
+  "sideEffects": false,
+  "files": [
+    "src",
+    "dist",
+    "types"
+  ],
+  "scripts": {
+    "protoc": "pbjs --no-create --no-verify --no-convert --no-delimited -t static-module -w commonjs -o ./src/model/proto-bundle.js ./src/proto/**/*.proto & pbts -o ./src/model/proto-bundle.d.ts ./src/model/proto-bundle.js",
+    "webpack": "webpack --mode=production",
+    "test": "jest --runInBand --bail",
+    "build": "npm run protoc && npm run webpack",
+    "analyze": "npm run protoc && webpack --mode=production --report=true"
+  },
+  "keywords": [
+    "turms"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/turms-im/turms-client-js.git"
+  },
+  "author": "James Chen <eurekajameschen@gmail.com>",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/turms-im/turms-client-js/issues"
+  },
+  "homepage": "https://github.com/turms-im/turms-client-js#readme",
+  "dependencies": {
+    "core-js": "^3.7.0",
+    "protobufjs": "git+https://github.com/turms-im/protobuf.js.git",
+    "unfetch": "^4.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
+    "@types/jest": "^26.0.15",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
+    "babel-loader": "^8.2.1",
+    "dts-bundle": "^0.7.3",
+    "eslint": "^7.13.0",
+    "jest": "^26.6.3",
+    "terser-webpack-plugin": "^5.0.3",
+    "ts-jest": "^26.4.4",
+    "ts-loader": "^8.0.11",
+    "typescript": "^4.0.5",
+    "webpack": "^5.4.0",
+    "webpack-bundle-analyzer": "^4.1.0",
+    "webpack-cli": "^4.2.0"
+  }
+}
